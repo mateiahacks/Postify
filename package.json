@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "server": "nodemon backend/server.js"
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend"
   },
   "author": "Mate Giorbelidze",
   "license": "ISC",
@@ -19,6 +20,7 @@
     "mongoose": "^7.0.3"
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.26",
     "nodemon": "^2.0.22"
   }
 }
