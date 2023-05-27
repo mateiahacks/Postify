@@ -2,6 +2,19 @@ body, * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Cabin', sans-serif;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Cabin&family=Pacifico&display=swap');
+
+.link {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+.eye-icon {
+  position: absolute;
+  top: 42px;
+  right: 15px;
+  cursor: pointer;
+}
