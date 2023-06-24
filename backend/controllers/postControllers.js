@@ -1,4 +1,5 @@
 const Post = require('../models/postModel');
+const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 
 // @desc Get posts
@@ -7,6 +8,7 @@ const asyncHandler = require('express-async-handler');
 
 const getPosts = asyncHandler( async (req, res) => {
     const posts = await Post.find();
+
     res.status(200).json(posts);
 });
 
@@ -19,7 +21,7 @@ const setPost = asyncHandler( async (req, res) => {
 
     const post = await Post.create({
         title, content,
-        author: req.user.id,
+        author: req.user,
     });
 
     res.status(201).json(post);

@@ -1,12 +1,18 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { StyledHeader, HeaderButton } from "./styles/Header.styled";
-import { useAppSelector } from "../app/hooks";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { theme } from "../utils/constants";
+import { logout } from "../features/auth/authSlice";
 
 const Header: FC = () => {
 
     const { user } = useAppSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+
+    const logOut = () => {
+        dispatch(logout());
+    }
 
     return (
         <StyledHeader>
@@ -34,8 +40,8 @@ const Header: FC = () => {
                     </HeaderButton>
                 </Link>
 
-                <Link to='/registration' className="link">
-                    <HeaderButton>
+                <Link to={user ? '/':'/registration'} className="link">
+                    <HeaderButton onClick={user ? logOut : () => {}}>
                         {user ? "Logout" : "Registration"}
                     </HeaderButton>
                 </Link>

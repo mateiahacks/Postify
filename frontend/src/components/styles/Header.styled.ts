@@ -12,6 +12,7 @@ export const StyledHeader = styled.nav`
     justify-content: space-between;
     font-family: 'Cabin', sans-serif;
     background-color: ${({ theme }) => theme.colors.header};
+    box-shadow: rgb(0 0 0 / 20%) 0px 6px 16px;
 
     div {
         display: flex;

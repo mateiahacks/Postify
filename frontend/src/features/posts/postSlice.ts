@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Post } from "../../utils/types";
+import { Post, PostData } from "../../utils/types";
 import postService from '../posts/postService';
+
+import { errorMessage } from "../../utils/helpers";
 
 export interface postsState {
     items: Array<Post>,
@@ -22,12 +24,20 @@ export const getPosts = createAsyncThunk('posts/get', async (_, thunkAPI) => {
     try {
         return postService.fetchPosts();
     } catch (error: any) {
-        const message = (error.response && error.response.data && error.response.data.message) 
-        || error.mesage || error.toString();
+        const message = errorMessage(error);
 
         return thunkAPI.rejectWithValue(message);
     }
 });
+
+export const createPost = createAsyncThunk('posts/create', async (postData: PostData, thunkAPI) => {
+    try {
+        return postService.createPost(postData);
+    } catch(error: any) {
+        const message = errorMessage(error);
+        return thunkAPI.rejectWithValue(message);
+    }  
+})
 
 export const postsSlice = createSlice({
     name: 'auth',
@@ -56,6 +66,11 @@ export const postsSlice = createSlice({
             state.isSuccess = false;
             state.isLoading = false;
             state.isError = true;
+        })
+        .addCase(createPost.fulfilled, (state, action) => {
+            state.isError = false;
+            state.isLoading = false;
+            state.items.push(action.payload);
         })
     }
 });

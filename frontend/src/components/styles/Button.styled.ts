@@ -10,7 +10,8 @@ export const StyledButton = styled.button<props>`
     color: ${(props) => props.font};
     border: none;
     cursor: pointer;
-    padding: 10px 40px;
+    padding: 10px 0;
+    min-width: 100px;
     border-radius: 5px;
     width: fit-content;
     align-self: center;

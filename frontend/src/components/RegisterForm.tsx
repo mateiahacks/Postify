@@ -1,6 +1,6 @@
 import React, { FC, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { StyledRegisterForm, InputContainer, InputField } from "./styles/RegisterForm.styled";
+import { StyledForm, InputContainer, InputField } from "./styles/RegisterForm.styled";
 import { StyledButton } from './styles/Button.styled';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { theme } from "../utils/constants";
@@ -47,7 +47,7 @@ const RegisterForm: FC = () => {
     }, [isSuccess, navigate]);
 
     return (
-        <StyledRegisterForm onSubmit={onSubmit}>
+        <StyledForm onSubmit={onSubmit}>
             <div className="form-header">
               <p>Registration</p>  
             </div>
@@ -92,7 +92,7 @@ const RegisterForm: FC = () => {
             >
                 Register
             </StyledButton>
-        </StyledRegisterForm>
+        </StyledForm>
     )
 }
 

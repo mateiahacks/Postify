@@ -5,6 +5,16 @@ body, * {
   font-family: 'Cabin', sans-serif;
 }
 
+body {
+  background-color: rgb(240, 240, 240);
+  height: 100vh;
+}
+
+:root {
+  --lightBlue: #378fe9;
+  --darkBlue: #0a66c2;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Cabin&family=Pacifico&display=swap');
 
 .link {
@@ -12,9 +22,53 @@ body, * {
   color: inherit;
 }
 
+.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .eye-icon {
   position: absolute;
   top: 42px;
   right: 15px;
   cursor: pointer;
+}
+
+@keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+.loader {
+  width: 8px;
+  height: 8px;
+  border: 1px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.modal-container {
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.modal-overlay {
+  background-color: rgba(0,0,0,.4);
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }

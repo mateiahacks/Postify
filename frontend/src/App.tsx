@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 const App: FC = () => {
   const { user } = useAppSelector(state => state.auth);
 
+
   return (
     <ThemeProvider theme={theme}>
     <>

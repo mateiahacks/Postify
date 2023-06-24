@@ -1,4 +1,5 @@
 import Api from '../../utils/Api';
+import { PostData } from '../../utils/types';
 
 const API_URL = '/api/posts';
 
@@ -11,8 +12,17 @@ const fetchPosts = async () => {
     return response.data;
 }
 
+const createPost = async (postData: PostData) => {
+    const response = await Api.post(API_URL, postData);
+
+    if (!response) return;
+
+    return response.data;
+}
+
 const postService = {
     fetchPosts,
+    createPost
 }
 
 export default postService;

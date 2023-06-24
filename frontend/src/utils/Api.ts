@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const token = localStorage.getItem("token") ? localStorage.getItem("token") : null;
+const user = JSON.parse(localStorage.getItem("user") || '{}');
+
+const token = user.token;
 
 const server = 'http://localhost:5000'
 

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-export const StyledRegisterForm = styled.form`
+export const StyledForm = styled.form`
     margin: auto;
+    margin-top: 20vh;
     background-color: white;
     padding: 20px 10px;
     border-radius: 8px;
