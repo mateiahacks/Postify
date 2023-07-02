@@ -3,11 +3,19 @@ import { StyledPostForm } from './styles/PostForm.styled';
 import { InputContainer, InputField } from './styles/RegisterForm.styled';
 import userIcon from '../assets/user.png';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { toast } from 'react-toastify';
 
 import { createPost } from '../features/posts/postSlice';
 
-const PostForm: FC = () => {
+interface Props {
+    toggleIsOpen: () => void
+}
+
+const PostForm: FC<Props> = ( { toggleIsOpen }: Props) => {
     const { user } = useAppSelector(state => state.auth);
+
+    const { isCreating, isCreated } = useAppSelector(state => state.posts);
+
     const [formData, setFormData] = useState({
         title: '',
         content: '',
@@ -37,6 +45,13 @@ const PostForm: FC = () => {
         textareaRef.current.focus();
     }, []);
 
+    useEffect(() => {
+        if (isCreated) {
+            toggleIsOpen();
+            toast.success("Post created succesfully!");
+        }
+    }, [isCreating, toggleIsOpen, isCreated]);
+
     return (
         <StyledPostForm>
             <div className='post-form-user'>
@@ -61,7 +76,7 @@ const PostForm: FC = () => {
             <button className={title && content ? 'post-button':'disabled-post-button'}
             onClick={onPost}
             >
-                Post
+                {isCreating ? <div className='loader'></div>:"Post"}
             </button>
             
         </StyledPostForm>

@@ -35,4 +35,11 @@ export const StyledPost = styled.div`
     p {
         color: #757575;
     }
+
+    .author-name {
+        color: blue;
+        text-decoration: underline;
+        margin-left: 5px;
+        cursor: pointer;
+    }
 `

@@ -59,7 +59,8 @@ export const StyledPostForm = styled.div`
         width: fit-content;
         align-self: flex-end;
         border: none;
-        padding: 8px 16px;
+        padding: 8px 0;
+        width: 60px;
         border-radius: 15px;
         color: white;
         background-color: var(--lightBlue);

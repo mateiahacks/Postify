@@ -1,9 +1,5 @@
 import axios from 'axios';
 
-const user = JSON.parse(localStorage.getItem("user") || '{}');
-
-const token = user.token;
-
 const server = 'http://localhost:5000'
 
 function onError(error: any) {
@@ -13,6 +9,8 @@ function onError(error: any) {
 class Api {
 
     static async get(url: string, params?: Object | null) {
+        const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+
         try {
             const response = await axios.get(`${server}${url}`, {
                 headers: token ? { "Authorization": `Bearer ${token}` } : {},
@@ -28,6 +26,8 @@ class Api {
     }
 
     static async post(url: string, data?: Object | null) {
+        const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+
         try {
             const response = await axios.post(`${server}${url}`, data, {
                 headers: token ? { "Authorization": `Bearer ${token}` } : {},

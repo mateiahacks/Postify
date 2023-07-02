@@ -9,6 +9,8 @@ export interface postsState {
     isError: boolean,
     isSuccess: boolean,
     isLoading: boolean,
+    isCreating: boolean,
+    isCreated: boolean,
     message: string,
 }
 
@@ -17,6 +19,8 @@ const initialState: postsState = {
     isError: false,
     isSuccess: false,
     isLoading: false,
+    isCreating: false,
+    isCreated: false,
     message: '',
 }
 
@@ -70,7 +74,13 @@ export const postsSlice = createSlice({
         .addCase(createPost.fulfilled, (state, action) => {
             state.isError = false;
             state.isLoading = false;
+            state.isCreating = false;
+            state.isCreated = true;
             state.items.push(action.payload);
+        })
+        .addCase(createPost.pending, (state) => {
+            state.isCreating = true;
+            state.isCreated = false;
         })
     }
 });

@@ -22,7 +22,7 @@ export interface User {
 
 export interface Post {
     id: number,
-    author: number,
+    author: User,
     title: string,
     content: string,
     likes: number,

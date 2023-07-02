@@ -24,6 +24,8 @@ const setPost = asyncHandler( async (req, res) => {
         author: req.user,
     });
 
+    console.log(post);
+
     res.status(201).json(post);
 
 });

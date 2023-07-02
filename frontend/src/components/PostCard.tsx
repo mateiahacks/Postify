@@ -9,10 +9,11 @@ interface Props {
 }
 
 const PostCard: FC<Props> = ({ post }) => {
-  const { title, content, createdAt, likes } = post;
+  const { title, content, createdAt, likes, author } = post;
 
   return (
     <StyledPost>
+      <p>Author: <span className='author-name'>{author.name}</span></p>
       <div className='post-top'>
         <h1>{ title }</h1>
         <p>{ formatedDate(createdAt) }</p>
@@ -34,6 +35,7 @@ const PostCard: FC<Props> = ({ post }) => {
             comments
           </p>
       </div>
+      
     </StyledPost>
   )
 }

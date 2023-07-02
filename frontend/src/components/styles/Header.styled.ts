@@ -10,9 +10,11 @@ export const StyledHeader = styled.nav`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: fixed;
     font-family: 'Cabin', sans-serif;
     background-color: ${({ theme }) => theme.colors.header};
     box-shadow: rgb(0 0 0 / 20%) 0px 6px 16px;
+    z-index: 1;
 
     div {
         display: flex;

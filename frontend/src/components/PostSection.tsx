@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyledPostSection, PostsContainer } from './styles/PostSection.styled';
 import { useAppSelector } from '../app/hooks';
 import PostCard from './PostCard';
@@ -7,21 +6,22 @@ import Modal from 'react-modal';
 
 import PostForm from './PostForm';
 import useToggle from '../utils/hooks/useToggle';
+import Spinner from './Spinner';
 
 export default function PostSection() {
-  const { items } = useAppSelector(state => state.posts);
+  const { items, isLoading } = useAppSelector(state => state.posts);
   const { user } = useAppSelector(state => state.auth);
   const [isOpen, toggleIsOpen] = useToggle();
   
 
   return (
     <StyledPostSection>
-
         <PostsContainer>
             {user && <PostFormOpen onOpen={toggleIsOpen}/> }
-            {items.map((post) => 
-                <PostCard post={post}/>
+            {items.map((post, i) => 
+                <PostCard key={i} post={post}/>
             )}
+            { isLoading && <Spinner size={60}/> }
         </PostsContainer>
       
         <Modal
@@ -29,8 +29,9 @@ export default function PostSection() {
           onRequestClose={toggleIsOpen}
           className='modal-container'
           overlayClassName='modal-overlay'
+          ariaHideApp={false}
         >
-          <PostForm />
+          <PostForm toggleIsOpen={toggleIsOpen}/>
         </Modal>
               
     </StyledPostSection>
