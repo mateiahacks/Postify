@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const server = 'http://localhost:5000'
 
 function onError(error: any) {
-    alert(error.response.data.message);
+    toast.error(error.response.data.message)
 }
 
 class Api {
@@ -30,6 +31,21 @@ class Api {
 
         try {
             const response = await axios.post(`${server}${url}`, data, {
+                headers: token ? { "Authorization": `Bearer ${token}` } : {},
+                data: data,
+            });
+
+            return response;
+        } catch(error) {
+            onError(error);
+        }
+    }
+
+    static async put(url: string, data?: Object | null) {
+        const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+
+        try {
+            const response = await axios.put(`${server}${url}`, data, {
                 headers: token ? { "Authorization": `Bearer ${token}` } : {},
                 data: data,
             });

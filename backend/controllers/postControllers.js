@@ -24,10 +24,25 @@ const setPost = asyncHandler( async (req, res) => {
         author: req.user,
     });
 
-    console.log(post);
-
     res.status(201).json(post);
 
+});
+
+const likePost = asyncHandler( async (req, res) => {
+    const postId = req.params.id;
+    const userId = req.user.id;
+    
+    const post = await Post.findById(postId);
+    let result = null;
+
+    if (post.likes.includes(userId)) {
+        result = await Post.findByIdAndUpdate(postId, { $pull: { likes: userId } });
+    } else {
+        result = await Post.findByIdAndUpdate(postId, { $push: { likes: userId }});
+        console.log(result);
+    }
+    res.json(result);
+    
 });
 
 const putPost = (req, res) => {
@@ -47,5 +62,6 @@ module.exports = {
     getPosts,
     setPost,
     putPost,
+    likePost,
     deletePost
 }

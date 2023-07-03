@@ -15,17 +15,18 @@ export interface PostData {
 }
 
 export interface User {
+    _id: string,
     name: string,
     email: string,
     token: string,
 }
 
 export interface Post {
-    id: number,
+    _id: string,
     author: User,
     title: string,
     content: string,
-    likes: number,
+    likes: Array<string>,
     comments: Array<string>,
     hidden: boolean,
     createdAt: string,
