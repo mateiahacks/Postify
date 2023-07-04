@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Post, PostData } from "../../utils/types";
 import postService from '../posts/postService';
-import { rootState } from "../../app/store";
 
 import { errorMessage } from "../../utils/helpers";
 
@@ -93,16 +92,8 @@ export const postsSlice = createSlice({
             state.isCreated = false;
         })
         .addCase(likePost.fulfilled, (state, action) => {
-            if (!rootState.auth.user) {
-                return;
-            }
-            const post = state.items.filter((item) => item._id === action.payload._id)[0];
-            if (post.likes.includes(rootState.auth.user._id)) {
-                post.likes = post.likes.filter((e) => e !== rootState.auth.user?._id);
-            } else {
-                post.likes.push(rootState.auth.user._id);
-            }
-            state.items = state.items.map((item) => item._id === post._id ? post:item);
+            const id = action.payload._id;
+            state.items = state.items.map((e) => e._id === id ? action.payload : e);
         });
     }
 });

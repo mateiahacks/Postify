@@ -44,6 +44,8 @@ class Api {
     static async put(url: string, data?: Object | null) {
         const token = JSON.parse(localStorage.getItem("user") || '{}').token;
 
+        console.log(token);
+
         try {
             const response = await axios.put(`${server}${url}`, data, {
                 headers: token ? { "Authorization": `Bearer ${token}` } : {},

@@ -31,17 +31,16 @@ const setPost = asyncHandler( async (req, res) => {
 const likePost = asyncHandler( async (req, res) => {
     const postId = req.params.id;
     const userId = req.user.id;
-    
+
     const post = await Post.findById(postId);
-    let result = null;
 
     if (post.likes.includes(userId)) {
-        result = await Post.findByIdAndUpdate(postId, { $pull: { likes: userId } });
+        post.likes = post.likes.filter((id) => id !== userId);
     } else {
-        result = await Post.findByIdAndUpdate(postId, { $push: { likes: userId }});
-        console.log(result);
+        post.likes.push(userId);
     }
-    res.json(result);
+    await post.save();
+    res.json(post);
     
 });
 
