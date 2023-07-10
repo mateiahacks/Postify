@@ -3,22 +3,23 @@ import { StyledPostForm } from './styles/PostForm.styled';
 import { InputContainer, InputField } from './styles/RegisterForm.styled';
 import userIcon from '../assets/user.png';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { toast } from 'react-toastify';
 
-import { createPost } from '../features/posts/postSlice';
+import { createPost, editPost } from '../features/posts/postSlice';
+import { Post } from '../utils/types';
 
 interface Props {
-    toggleIsOpen: () => void
+    toggleIsOpen: () => void,
+    editData: Post | null,
 }
 
-const PostForm: FC<Props> = ( { toggleIsOpen }: Props) => {
+const PostForm: FC<Props> = ( { toggleIsOpen, editData }: Props) => {
     const { user } = useAppSelector(state => state.auth);
 
     const { isCreating, isCreated } = useAppSelector(state => state.posts);
 
     const [formData, setFormData] = useState({
-        title: '',
-        content: '',
+        title: editData ? editData.title : '',
+        content: editData ? editData.content : '',
     });
 
     const dispatch = useAppDispatch();
@@ -38,7 +39,11 @@ const PostForm: FC<Props> = ( { toggleIsOpen }: Props) => {
         if (!title || !content) {
             return;
         }
-        dispatch(createPost(formData));
+        if (!editData) {
+            dispatch(createPost(formData));
+        } else {
+            dispatch(editPost({ postId: editData._id, ...formData }));
+        }
     }
 
     useEffect(() => {
@@ -48,7 +53,6 @@ const PostForm: FC<Props> = ( { toggleIsOpen }: Props) => {
     useEffect(() => {
         if (isCreated) {
             toggleIsOpen();
-            toast.success("Post created succesfully!");
         }
     }, [isCreating, toggleIsOpen, isCreated]);
 
@@ -76,7 +80,7 @@ const PostForm: FC<Props> = ( { toggleIsOpen }: Props) => {
             <button className={title && content ? 'post-button':'disabled-post-button'}
             onClick={onPost}
             >
-                {isCreating ? <div className='loader'></div>:"Post"}
+                {isCreating ? <div className='loader'></div>:`${editData ? 'Save':'Post'}`}
             </button>
             
         </StyledPostForm>

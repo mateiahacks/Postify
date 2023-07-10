@@ -17,10 +17,6 @@ const postSchema = mongoose.Schema({
         type: [String],
         default: [],    
     },
-    comments: {
-        type: [{body: String, date: Date}],
-        default: [],
-    },
     hidden: {
         type: Boolean,
         default: false,

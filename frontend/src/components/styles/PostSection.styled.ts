@@ -19,4 +19,10 @@ export const PostsContainer = styled.div`
     flex-direction: column;
     gap: 30px;
     padding-bottom: 40px;
+
+    & > h1 {
+        margin: auto;
+        margin-top: 50px;
+        color: gray;
+    }
 `

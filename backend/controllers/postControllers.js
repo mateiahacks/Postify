@@ -1,5 +1,6 @@
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
+const Comment = require('../models/commentModel');
 const asyncHandler = require('express-async-handler');
 
 // @desc Get posts
@@ -44,17 +45,49 @@ const likePost = asyncHandler( async (req, res) => {
     
 });
 
-const putPost = (req, res) => {
-    res.json({
-        message: "Put post",
-    })
-}
+const putPost = asyncHandler(async (req, res) => {
+    const postId = req.params.id;
+    const { title, content } = req.body;
+    if(!title || !content) {
+        res.status(400);
+        throw new Error("Please add all fields");
+    }
 
-const deletePost = (req, res) => {
-    res.json({
-        message: "Remove post"
-    })
-}
+    const post = await Post.findById(postId);
+
+    if (post.author._id.toString() !== req.user._id.toString()) {
+        res.status(400);
+        throw new Error("Incorrect user");
+    }
+    
+    post.title = title;
+    post.content = content;
+    await post.save();
+
+    res.json(post);
+
+})
+
+const deletePost = asyncHandler( async (req, res) => {
+    const postId = req.params.id;
+    const post = await Post.findById(postId);
+    console.log(post.author._id.toString());
+    console.log(req.user._id.toString());
+    if (post.author._id.toString() !== req.user._id.toString()) {
+        res.status(400);
+        throw new Error("Incorrect user");
+    }
+
+    if (!post) {
+        res.status(400);
+        throw new Error("Post not found");
+    }
+
+    await Comment.deleteMany({ postId: postId });
+
+    await Post.deleteOne({ _id: postId });
+    res.json({ msg: "Post successfuly removed" });
+});
 
 
 module.exports = {

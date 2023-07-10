@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Post, PostData } from "../../utils/types";
+import { Post, PostData, PostEditData } from "../../utils/types";
 import postService from '../posts/postService';
-
+import { toast } from "react-toastify";
 import { errorMessage } from "../../utils/helpers";
 
 export interface postsState {
@@ -42,6 +42,24 @@ export const createPost = createAsyncThunk('posts/create', async (postData: Post
         return thunkAPI.rejectWithValue(message);
     }  
 });
+
+export const deletePost = createAsyncThunk('posts/delete', async (postId: string, thunkAPI) => {
+    try {
+        return postService.deletePost(postId);
+    } catch(error: any) {
+        const message = errorMessage(error);
+        return thunkAPI.rejectWithValue(message);
+    }  
+});
+
+export const editPost = createAsyncThunk('posts/edit', async (data: PostEditData, thunkAPI) => {
+    try {
+        return postService.editPost(data);
+    } catch(error: any) {
+        const message = errorMessage(error);
+        return thunkAPI.rejectWithValue(message);
+    } 
+})
 
 export const likePost = createAsyncThunk('posts/like', async (id: string, thunkAPI) => {
     try {
@@ -86,15 +104,30 @@ export const postsSlice = createSlice({
             state.isCreating = false;
             state.isCreated = true;
             state.items.push(action.payload);
+            toast.success("Post created succesfully!");
         })
         .addCase(createPost.pending, (state) => {
             state.isCreating = true;
-            state.isCreated = false;
         })
         .addCase(likePost.fulfilled, (state, action) => {
             const id = action.payload._id;
             state.items = state.items.map((e) => e._id === id ? action.payload : e);
-        });
+        })
+        .addCase(deletePost.fulfilled, (state, action) => {
+            const id = action.payload;
+            state.items = state.items.filter((e) => e._id !== id);
+            toast.success("Post delted successfully");
+        })
+        .addCase(editPost.pending, (state) => {
+            state.isCreating = true;
+        })
+        .addCase(editPost.fulfilled, (state, action) => {
+            const newPost = action.payload;
+            state.items = state.items.map((e) => e._id === newPost._id ? newPost : e);
+            state.isCreating = false;
+            state.isCreated = true;
+            toast.success("Post saved successfully");
+        })
     }
 });
 

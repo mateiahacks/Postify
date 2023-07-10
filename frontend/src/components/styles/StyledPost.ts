@@ -9,6 +9,7 @@ export const StyledPost = styled.div`
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+    position: relative;
     gap: 30px;
 
     .post-top, .post-bottom {
@@ -23,6 +24,11 @@ export const StyledPost = styled.div`
         margin-right: 5px;
     }
 
+    .show-more {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
     .post-comments-button {
         cursor: pointer;
     }
@@ -34,6 +40,13 @@ export const StyledPost = styled.div`
 
     p {
         color: #757575;
+    }
+
+    .three-dots-icon {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        cursor: pointer;
     }
 
     .author-name {

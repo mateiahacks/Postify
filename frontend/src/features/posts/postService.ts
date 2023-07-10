@@ -1,5 +1,5 @@
 import Api from '../../utils/Api';
-import { PostData } from '../../utils/types';
+import { PostData, PostEditData } from '../../utils/types';
 
 const API_URL = '/api/posts';
 
@@ -20,13 +20,29 @@ const createPost = async (postData: PostData) => {
     return response.data;
 }
 
+const deletePost = async (postId: string) => {
+    const response = await Api.delete(API_URL+'/'+postId);
+
+    if (!response) return;
+
+    return postId;
+}
+
+const editPost = async (data: PostEditData) => {
+    const { postId } = data;
+    const response = await Api.put(API_URL+'/'+postId, data);
+
+    if(!response) return;
+
+    return response.data;
+
+}
+
+
 const likePost = async (id: string) => {
     const response = await Api.put(API_URL+'/like/'+ id);
 
     if (!response) return;
-
-    console.log("dataa");
-    console.log(response);
 
     return response.data;
 }   
@@ -35,6 +51,8 @@ const postService = {
     fetchPosts,
     createPost,
     likePost,
+    deletePost,
+    editPost,
 }
 
 export default postService;

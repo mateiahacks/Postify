@@ -14,6 +14,17 @@ export interface PostData {
     content: string,
 }
 
+export interface PostEditData {
+    postId: string,
+    title: string,
+    content: string,
+}
+
+export interface CommentData {
+    content: string,
+    postId: string,
+}
+
 export interface User {
     _id: string,
     name: string,
@@ -29,5 +40,12 @@ export interface Post {
     likes: Array<string>,
     comments: Array<string>,
     hidden: boolean,
+    createdAt: string,
+}
+
+export interface Comment {
+    _id: string,
+    author: User,
+    content: string,
     createdAt: string,
 }
