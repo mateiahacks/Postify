@@ -7,10 +7,29 @@ const asyncHandler = require('express-async-handler');
 // @route GET /api/posts/
 // @access Public
 
-const getPosts = asyncHandler( async (req, res) => {
-    const posts = await Post.find();
+const PAGE_SIZE = 3;
 
-    res.status(200).json(posts);
+const getPosts = asyncHandler( async (req, res) => {
+    const page = Number(req.query.page);
+
+    let posts = await Post.find();
+    
+    const firstIndex = Math.floor(posts.length / PAGE_SIZE) + (page-1)*PAGE_SIZE - 1;
+    const lastIndex = Math.floor((firstIndex + PAGE_SIZE));
+
+    const temp = {
+        postLength: posts.length,
+        PAGE_SIZE,
+        firstIndex,
+        lastIndex,
+        page
+    }
+
+    console.log(temp);
+
+    posts = posts.filter((_, i) => i >= firstIndex && i < lastIndex);
+
+    res.status(200).json({page_size: PAGE_SIZE, posts, page_number: Math.floor(posts.length/PAGE_SIZE)+1});
 });
 
 const setPost = asyncHandler( async (req, res) => {
@@ -71,8 +90,7 @@ const putPost = asyncHandler(async (req, res) => {
 const deletePost = asyncHandler( async (req, res) => {
     const postId = req.params.id;
     const post = await Post.findById(postId);
-    console.log(post.author._id.toString());
-    console.log(req.user._id.toString());
+    
     if (post.author._id.toString() !== req.user._id.toString()) {
         res.status(400);
         throw new Error("Incorrect user");
@@ -82,6 +100,8 @@ const deletePost = asyncHandler( async (req, res) => {
         res.status(400);
         throw new Error("Post not found");
     }
+
+    // Delete all comments of the post
 
     await Comment.deleteMany({ postId: postId });
 

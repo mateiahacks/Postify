@@ -6,6 +6,8 @@ import { errorMessage } from "../../utils/helpers";
 
 export interface postsState {
     items: Array<Post>,
+    pageSize: number,
+    currentPage: number,
     isError: boolean,
     isSuccess: boolean,
     isLoading: boolean,
@@ -16,6 +18,8 @@ export interface postsState {
 
 const initialState: postsState = {
     items: [],
+    pageSize: 3,
+    currentPage: 1,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -24,9 +28,9 @@ const initialState: postsState = {
     message: '',
 }
 
-export const getPosts = createAsyncThunk('posts/get', async (_, thunkAPI) => {
+export const getPosts = createAsyncThunk('posts/get', async (page: number, thunkAPI) => {
     try {
-        return postService.fetchPosts();
+        return postService.fetchPosts(page);
     } catch (error: any) {
         const message = errorMessage(error);
 
@@ -91,7 +95,8 @@ export const postsSlice = createSlice({
             state.isSuccess = true;
             state.isLoading = false;
             state.isError = false;
-            state.items = action.payload;
+            state.items = action.payload.posts;
+            state.pageSize = action.payload.page_size;
         })
         .addCase(getPosts.rejected, (state, action) => {
             state.isSuccess = false;
@@ -103,7 +108,8 @@ export const postsSlice = createSlice({
             state.isLoading = false;
             state.isCreating = false;
             state.isCreated = true;
-            state.items.push(action.payload);
+            if (state.items.length !== state.pageSize)
+                state.items.push(action.payload);
             toast.success("Post created succesfully!");
         })
         .addCase(createPost.pending, (state) => {

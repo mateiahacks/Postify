@@ -8,7 +8,7 @@ interface props {
 }
 
 const PostFormOpen: FC<props> = ({ onOpen }) => {
-
+    
     return (
         <StyledPostFormOpen>
             <div className="post-form-inner" onClick={onOpen}>

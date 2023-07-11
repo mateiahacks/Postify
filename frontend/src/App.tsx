@@ -20,7 +20,8 @@ const App: FC = () => {
     <GlobalStyles />
     <Router>
       <Routes>
-        <Route path='/' element={<Home />}/>
+        <Route path='/' element={<Navigate to={'/page/1'}/>}/>
+        <Route path='/page/:page' element={<Home />}/>
         <Route path='/login' element={user ? <Navigate to='/'/> : <Login />}/>
         <Route path='/registration' element={user ? <Navigate to='/'/> : <Registration />} />
       </Routes>

@@ -16,6 +16,11 @@ export default function PostSection() {
   const [isOpen, toggleIsOpen] = useToggle();
   const [editData, setEditData] = useState<Post | null>(null);
 
+  const onClose = () => {
+    toggleIsOpen();
+    setEditData(null);
+  }
+
   return (
     <StyledPostSection>
         <PostsContainer>
@@ -32,7 +37,7 @@ export default function PostSection() {
       
         <Modal
           isOpen={isOpen}
-          onRequestClose={toggleIsOpen}
+          onRequestClose={onClose}
           className='modal-container'
           overlayClassName='modal-overlay'
           ariaHideApp={false}

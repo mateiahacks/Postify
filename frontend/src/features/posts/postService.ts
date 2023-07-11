@@ -4,8 +4,8 @@ import { PostData, PostEditData } from '../../utils/types';
 const API_URL = '/api/posts';
 
 // Get posts
-const fetchPosts = async () => {
-    const response = await Api.get(API_URL);
+const fetchPosts = async (page: number) => {
+    const response = await Api.get(API_URL, { page });
 
     if (!response) return;
 
