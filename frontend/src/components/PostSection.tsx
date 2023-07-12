@@ -36,7 +36,7 @@ export default function PostSection() {
                 setEditData={setEditData}/>
             )}
             { isLoading && <Spinner size={60}/> }
-            {(pageNumber && !isLoading && !post_id) && 
+            {(pageNumber && !isLoading && !post_id && items.length > 0) && 
             <Pagination 
             pageNumber={pageNumber}
             currentPage={Number(page)}
