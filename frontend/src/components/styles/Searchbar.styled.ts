@@ -46,6 +46,12 @@ export const StyledSearchbar = styled.div`
         background-color: rgb(0,0,0); /* Fallback color */
         background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     }
+
+    @media only screen and (max-width: 600px) {
+        input, .search-icon {
+            display: none;
+        }
+    }
 `
 
 export const SearchModal = styled.div`

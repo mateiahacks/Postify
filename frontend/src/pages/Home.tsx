@@ -14,7 +14,7 @@ const Home: FC = () => {
         if (name) {
             dispatch(getPosts({ page: Number(page), name }));
         } 
-        if (post_id) {
+        else if (post_id) {
             dispatch(getPost(post_id));
         }
         else {

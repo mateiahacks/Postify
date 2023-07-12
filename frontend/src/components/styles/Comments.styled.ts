@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const CommentsSection = styled.div`
-    width: 400px;
+    width: clamp(250px, 60vw, 400px);
     height: 500px;
     display: flex;
     flex-direction: column;

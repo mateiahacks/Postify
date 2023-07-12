@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const StyledPostFormOpen = styled.div`
     padding: 15px;
-    width: 100%;
+    width: clamp(300px, 90vw, 500px);
     box-shadow: rgb(0 0 0 / 20%) 1px 2px 5px;
     border: 3px solid transparent;
     background-color: white;
@@ -12,18 +12,16 @@ export const StyledPostFormOpen = styled.div`
     align-items: center;
     justify-content: center;
     gap: 30px;
+    position: relative;
 
     .post-form-inner {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: 10px;
+        width: 100%;
     }
-
-    .post-form-input-container {
-        flex-grow: 1;
-    }
-
-    .user-icon {
+    .post-form-inner > .user-icon {
         width: 40px;
     }
 
@@ -34,16 +32,16 @@ export const StyledPostForm = styled.div`
     flex-direction: column;
     gap: 15px;
 
-    .user-icon {
-        width: 50px;
-        margin-left: 5px;
-    }
-
     .post-form-user {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+    }
+
+    .user-icon {
+        width: 60px;
+        margin-bottom: 15px;
     }
 
     textarea {
@@ -87,6 +85,8 @@ export const CreatePostFakeInput = styled.div`
     border-radius: 20px;
     border: 1px solid gray;
     color: gray;
+    /* width: clamp(200px, 65vw, 400px); */
     width: 100%;
+    margin: auto;
     cursor: pointer;
 `

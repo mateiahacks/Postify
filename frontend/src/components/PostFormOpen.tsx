@@ -13,11 +13,9 @@ const PostFormOpen: FC<props> = ({ onOpen }) => {
         <StyledPostFormOpen>
             <div className="post-form-inner" onClick={onOpen}>
                 <img src={user} alt="user" className="user-icon"/>
-                <InputContainer>
-                    <CreatePostFakeInput>
-                        Start a post
-                    </CreatePostFakeInput>
-                </InputContainer>
+                <CreatePostFakeInput>
+                    Start a post
+                </CreatePostFakeInput>
             </div>
         </StyledPostFormOpen>
     )

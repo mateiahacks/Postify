@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authService from "./authService";
 import { User, RegisterData, LoginData } from "../../utils/types";
+import { toast } from "react-toastify";
 
 export interface authState {
     user: User | null,
@@ -74,6 +75,7 @@ export const authSlice = createSlice({
             state.isError = false;
             state.isSuccess = true;
             state.user = action.payload;
+            toast.success("Successfully registered");
         })
         .addCase(register.rejected, (state, action) => {
             state.isError = true;

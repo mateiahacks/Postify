@@ -17,8 +17,6 @@ const getComments = async (postId: string) => {
 
     if (!response) return;
 
-    console.log(response);
-
     return response.data;
 }
 
