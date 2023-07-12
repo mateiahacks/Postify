@@ -6,6 +6,7 @@ export const CommentsSection = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
 
     .comments {
         display: flex;
@@ -13,7 +14,11 @@ export const CommentsSection = styled.div`
         gap: 10px;
     }
 
-    form {
+    .comments-spinner {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-100%, -100%);
     }
 `
 export const StyledComment = styled.div`

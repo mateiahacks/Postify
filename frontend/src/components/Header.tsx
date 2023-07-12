@@ -4,6 +4,7 @@ import { StyledHeader, HeaderButton } from "./styles/Header.styled";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { theme } from "../utils/constants";
 import { logout } from "../features/auth/authSlice";
+import Searchbar from "./Searchbar";
 
 const Header: FC = () => {
 
@@ -20,20 +21,15 @@ const Header: FC = () => {
                 <Link to='/' className="link">
                     <h1>P</h1>
                 </Link>
-
-                <Link to='/collections' className="link">
-                    <HeaderButton>
-                        Collections
-                    </HeaderButton>
-                </Link>
-
-                <Link to='/populars' className="link">
-                    <HeaderButton>
-                        Most popular
-                    </HeaderButton>
-                </Link>
+                <Searchbar />
             </div>
             <div>
+                {user &&  
+                <Link to={`/user/${user?.name}/page/1`} className="link">
+                    <HeaderButton>
+                        My posts
+                    </HeaderButton>
+                </Link> }
                 <Link to='/login' className="link">
                     <HeaderButton bg={theme.colors.green}>
                         {user ?  user.name : "Login"}

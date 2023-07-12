@@ -4,13 +4,22 @@ import { PostData, PostEditData } from '../../utils/types';
 const API_URL = '/api/posts';
 
 // Get posts
-const fetchPosts = async (page: number) => {
-    const response = await Api.get(API_URL, { page });
+const fetchPosts = async (page: number, name?: string) => {
+    const url = name ? API_URL+'/author/'+name:API_URL;
+    const response = await Api.get(url, { page });
 
     if (!response) return;
 
     return response.data;
 }
+
+const fetchPost = async (id: string) => {
+    const response = await Api.get(API_URL+'/post/'+id);
+
+    if (!response) return;
+
+    return response.data;
+} 
 
 const createPost = async (postData: PostData) => {
     const response = await Api.post(API_URL, postData);
@@ -53,6 +62,7 @@ const postService = {
     likePost,
     deletePost,
     editPost,
+    fetchPost,
 }
 
 export default postService;

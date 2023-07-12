@@ -12,6 +12,7 @@ import { reset } from '../features/comments/commentSlice';
 import Comments from './Comments';
 import Popup from './Popup';
 import ConfirmationModal from './ConfirmationModal';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   post: Post,
@@ -27,6 +28,7 @@ const initialStyleState = {
 const PostCard: FC<Props> = ({ post, togglePostForm, setEditData }) => {
   const { title, content, createdAt, likes, author, _id } = post;
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { user } = useAppSelector(state => state.auth);
   const isLiked = user ? likes.includes(user._id) : false;
   const [isCommentsOpen, toggleIsCommentsOpen] = useToggle(false);
@@ -68,13 +70,17 @@ const PostCard: FC<Props> = ({ post, togglePostForm, setEditData }) => {
     dispatch(deletePost(_id));
   }
 
+  const onAuthorClick = () => {
+    navigate(`/user/${author.name}/page/1`);
+  }
+
   useEffect(() => {
     setHeight(ref.current.clientHeight);
   }, []);
 
   return (
     <StyledPost>
-      <p>Author: <span className='author-name'>{author.name}</span></p>
+      <p>Author: <span className='author-name' onClick={onAuthorClick}>{author.name}</span></p>
       <div className='post-top'>
         <h1>{ title }</h1>
         <p>{ formatedDate(createdAt) }</p>

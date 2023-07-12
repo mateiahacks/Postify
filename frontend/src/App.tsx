@@ -22,6 +22,8 @@ const App: FC = () => {
       <Routes>
         <Route path='/' element={<Navigate to={'/page/1'}/>}/>
         <Route path='/page/:page' element={<Home />}/>
+        <Route path='/user/:name/page/:page' element={<Home />}/>
+        <Route path='/post/:post_id' element={<Home />}/>
         <Route path='/login' element={user ? <Navigate to='/'/> : <Login />}/>
         <Route path='/registration' element={user ? <Navigate to='/'/> : <Registration />} />
       </Routes>

@@ -1,23 +1,24 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const server = 'http://localhost:5000'
+export const server = 'http://localhost:5000'
 
 function onError(error: any) {
-    toast.error(error.response.data.message)
+    toast.error(error.response?.data.message);
+
+    console.log(error);
 }
 
 class Api {
 
     static async get(url: string, params?: Object | null) {
         const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-
+        
         try {
             const response = await axios.get(`${server}${url}`, {
                 headers: token ? { "Authorization": `Bearer ${token}` } : {},
                 params: params,
             });
-
             return response;
 
         } catch(error) {

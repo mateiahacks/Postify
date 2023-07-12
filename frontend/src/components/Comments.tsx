@@ -16,7 +16,10 @@ const Comments: FC<Props> = ( { postId } ) => {
     return (
 
         <CommentsSection>
-            { (isLoading && items.length===0) && <Spinner size={30}/> }
+            { (isLoading && items.length===0) && 
+            <div className="comments-spinner">
+                <Spinner size={30}/>
+            </div> }
             <div className="comments">
             {items.map((comment, i) => 
                 <Comment key={i} comment={comment}/>

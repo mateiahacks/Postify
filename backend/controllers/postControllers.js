@@ -13,24 +13,57 @@ const getPosts = asyncHandler( async (req, res) => {
     const page = Number(req.query.page);
 
     let posts = await Post.find();
+
+    const page_number = Math.floor(posts.length/PAGE_SIZE)+1;
     
     const firstIndex = Math.floor(posts.length / PAGE_SIZE) + (page-1)*PAGE_SIZE - 1;
     const lastIndex = Math.floor((firstIndex + PAGE_SIZE));
 
-    const temp = {
-        postLength: posts.length,
-        PAGE_SIZE,
-        firstIndex,
-        lastIndex,
-        page
+    posts = posts.filter((_, i) => i >= firstIndex && i < lastIndex);
+
+    res.status(200).json({page_size: PAGE_SIZE, posts, page_number});
+});
+
+const getAuthorPosts = asyncHandler( async (req, res) => {
+    const authorName = req.params.name;
+    const page = Number(req.query.page);
+
+    if (!authorName) {
+        res.status(400);
+        throw new Error("No id parameter provided");
     }
 
-    console.log(temp);
+    let posts = await Post.find({ "author.name": authorName });
+
+    const page_number = Math.floor(posts.length/PAGE_SIZE)+1;
+    
+    const firstIndex = Math.floor(posts.length / PAGE_SIZE) + (page-1)*PAGE_SIZE - 1;
+    const lastIndex = Math.floor((firstIndex + PAGE_SIZE));
 
     posts = posts.filter((_, i) => i >= firstIndex && i < lastIndex);
 
-    res.status(200).json({page_size: PAGE_SIZE, posts, page_number: Math.floor(posts.length/PAGE_SIZE)+1});
+    res.json({ posts, page_size: PAGE_SIZE, page_number });
+
 });
+
+const getPost = asyncHandler( async (req, res) => {
+    const id = req.params.id;
+
+    if (!id) {
+        res.status(400);
+        throw new Error("Not provided with id");
+    }
+    const post = await Post.findById(id);
+
+    console.log(post);
+
+    if (!post) {
+        res.status(404);
+        throw new Error("Post with that id not found");
+    }
+
+    res.status(200).json(post);
+} );
 
 const setPost = asyncHandler( async (req, res) => {
     const { title, content } = req.body;
@@ -115,5 +148,7 @@ module.exports = {
     setPost,
     putPost,
     likePost,
-    deletePost
+    deletePost,
+    getAuthorPosts,
+    getPost
 }

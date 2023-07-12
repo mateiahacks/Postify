@@ -8,6 +8,7 @@ export interface postsState {
     items: Array<Post>,
     pageSize: number,
     currentPage: number,
+    pageNumber: number | null,
     isError: boolean,
     isSuccess: boolean,
     isLoading: boolean,
@@ -19,6 +20,7 @@ export interface postsState {
 const initialState: postsState = {
     items: [],
     pageSize: 3,
+    pageNumber: null,
     currentPage: 1,
     isError: false,
     isSuccess: false,
@@ -28,15 +30,30 @@ const initialState: postsState = {
     message: '',
 }
 
-export const getPosts = createAsyncThunk('posts/get', async (page: number, thunkAPI) => {
+export const getPosts = createAsyncThunk('posts/get', async (data: {
+    page: number,
+    name?: string,
+}, thunkAPI) => {
     try {
-        return postService.fetchPosts(page);
+        if (data.name) {
+            return postService.fetchPosts(data.page, data.name);
+        }
+        return postService.fetchPosts(data.page);
     } catch (error: any) {
         const message = errorMessage(error);
 
         return thunkAPI.rejectWithValue(message);
     }
 });
+
+export const getPost = createAsyncThunk('posts/getPost', async (id: string, thunkAPI) => {
+    try {
+        return postService.fetchPost(id);
+    } catch(error: any) {
+        const message = errorMessage(error);
+        return thunkAPI.rejectWithValue(message);
+    } 
+})
 
 export const createPost = createAsyncThunk('posts/create', async (postData: PostData, thunkAPI) => {
     try {
@@ -97,6 +114,7 @@ export const postsSlice = createSlice({
             state.isError = false;
             state.items = action.payload.posts;
             state.pageSize = action.payload.page_size;
+            state.pageNumber = action.payload.page_number;
         })
         .addCase(getPosts.rejected, (state, action) => {
             state.isSuccess = false;
@@ -134,7 +152,16 @@ export const postsSlice = createSlice({
             state.isCreated = true;
             toast.success("Post saved successfully");
         })
+        .addCase(getPost.pending, (state, action) => {
+            state.items = [];
+            state.isLoading = true;
+        })
+        .addCase(getPost.fulfilled, (state, action) => {
+            state.items = [action.payload];
+            state.isLoading = false;
+        })
     }
 });
 
+export const { reset } = postsSlice.actions;
 export default postsSlice.reducer;
