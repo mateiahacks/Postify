@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-export const server = 'http://localhost:5000'
+export const server = 'https://postify-392809.lm.r.appspot.com'
 
 function onError(error: any) {
     toast.error(error.response?.data.message);
