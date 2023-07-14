@@ -1,2 +1,3 @@
-.node_modules
-.app.yaml
+node_modules
+.env
+app.yaml
