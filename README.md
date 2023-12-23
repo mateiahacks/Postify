@@ -4,7 +4,7 @@ Postify
 Fullstack Social app built with Express, React and Typescript.
 
 * Used nont-relational database MongoDB.
-* Implemented JWT for secure user authentication in Express and React.
+* Developed REST API and Implemented JWT for secure user authentication in Express.
 * Utilized Redux Toolkit for efficient state management.
 * Integrated Pagination for seamless content navigation.
 * Designed responsive UI with Styled-Components for enhanced user experience.
